@@ -1,0 +1,41 @@
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+
+file_path = "seaplane_template_3in.pdf"
+
+c = canvas.Canvas(file_path, pagesize=letter)
+width, height = letter
+
+# Origin position
+x = 1.5 * inch
+y = height - 4 * inch
+
+# Exact plane length
+plane_length = 3 * inch
+
+c.setLineWidth(2)
+
+# Fuselage
+c.line(x, y, x + plane_length, y)
+
+# Nose cone
+c.line(x + plane_length, y, x + plane_length + 0.25*inch, y + 0.15*inch)
+c.line(x + plane_length, y, x + plane_length + 0.25*inch, y - 0.15*inch)
+
+# Tail fin
+c.line(x, y, x - 0.3*inch, y + 0.35*inch)
+
+# Wing (angled for 3D look)
+c.line(x + plane_length*0.4, y, x + plane_length*0.6, y + 0.6*inch)
+
+# Float
+c.rect(x + plane_length*0.25, y - 0.45*inch, plane_length*0.5, 0.18*inch)
+
+# Label
+c.drawString(x, y + 0.9*inch, "3-inch Seaplane Template – Print at 100%")
+
+c.showPage()
+c.save()
+
+print("PDF created:", file_path)
